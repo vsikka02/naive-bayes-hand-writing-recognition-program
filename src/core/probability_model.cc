@@ -58,21 +58,19 @@ ProbabilityModel::ProbabilityModel(
 
 }
 
-std::string ProbabilityModel::WriteJsonOutputFile(std::string file_name) {
+void ProbabilityModel::WriteJsonOutputFile(std::string file_path) {
 
   json j;
   j["pixel_probability_model"] = pixel_probability_model_;
   j["class_probability_model"] = class_probability_model_;
 
-  std::ofstream output_file("../data/" + file_name + ".json");
+  std::ofstream output_file(file_path);
 
   if (output_file.is_open()) {
     output_file << j << std::endl;
   }
 
   output_file.close();
-
-  return j;
 }
 
 std::istream& operator>>(std::istream& is,

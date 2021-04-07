@@ -14,7 +14,7 @@ int main() {
     input_file >> data_engine;
 
     naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel(data_engine.image_map());
-    probability_model.WriteJsonOutputFile("output_probability_model");
+    probability_model.WriteJsonOutputFile("../data/output_probability_model.json");
   } else {
     std::ifstream json_file("../data/output_probability_model.json");
     naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel();
@@ -27,7 +27,7 @@ int main() {
 
     naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel(data_engine.image_map());
 
-    probability_model.WriteJsonOutputFile("test_output_probability_model");
+    probability_model.WriteJsonOutputFile("../data/test_output_probability_model.json");
   }
 
   return 0;

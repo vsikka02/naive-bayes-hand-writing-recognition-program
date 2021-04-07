@@ -24,7 +24,7 @@ class ProbabilityModel {
 
   // This utilizes the nlohmann class in order to write a json file that
   // serializes the pixel_probability_model_ and the class_probability_model_.
-  std::string WriteJsonOutputFile(std::string file_name);
+  void WriteJsonOutputFile(std::string file_path);
 
   // Input operator overrided. This will take an input file stream and then
   // load an empty probability_model with the data from a JSON file.

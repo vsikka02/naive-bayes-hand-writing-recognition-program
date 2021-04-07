@@ -74,8 +74,7 @@ TEST_CASE("Test Probability Model Constructor") {
   }
 }
 
-TEST_CASE("Write JSON file") {
-
+TEST_CASE("Read and Write JSON File", "Overridden << Operator") {
   std::ifstream input_file(
       "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
       "naive-bayes-vsikka2/data/testtrainingimagesandlabels.txt");
@@ -86,11 +85,11 @@ TEST_CASE("Write JSON file") {
 
   naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel(test_data_engine.image_map());
 
-  SECTION("Test Writing Properly") {
+  SECTION("Write JSON file") {
+    probability_model.WriteJsonOutputFile("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
+                                            "naive-bayes-vsikka2/data/test_output_probability_model.json");
   }
-}
 
-TEST_CASE("Read JSON File", "Overridden << Operator") {
   naivebayes::ProbabilityModel new_model = naivebayes::ProbabilityModel();
 
   std::ifstream json_file(
