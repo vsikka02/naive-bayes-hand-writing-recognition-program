@@ -4,6 +4,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "sketchpad.h"
+#include "core/probability_model.h"
 
 namespace naivebayes {
 
@@ -24,12 +25,13 @@ class NaiveBayesApp : public ci::app::App {
 
   // TODO: Delete this comment. Feel free to play around with these variables
   // provided that you can see the entire UI on your screen.
-  const double kWindowSize = 875;
+  const double kWindowSize = 800;
   const double kMargin = 100;
   const size_t kImageDimension = 28;
 
  private:
   Sketchpad sketchpad_;
+  naivebayes::ProbabilityModel probability_model;
   int current_prediction_ = -1;
 };
 

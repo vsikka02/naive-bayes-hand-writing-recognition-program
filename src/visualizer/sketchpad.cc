@@ -11,17 +11,17 @@ Sketchpad::Sketchpad(const vec2& top_left_corner, size_t num_pixels_per_side,
     : top_left_corner_(top_left_corner),
       num_pixels_per_side_(num_pixels_per_side),
       pixel_side_length_(sketchpad_size / num_pixels_per_side),
-      brush_radius_(brush_radius) {}
+      brush_radius_(brush_radius) {
+  image_ = Image(vector<string>(num_pixels_per_side), 0);
+  for (int i = 0; i < image_.image_string_vector().size(); i++) {
+    image_.image_string_vector()[i] = std::string (num_pixels_per_side, ' ');
+  }
+}
 
 void Sketchpad::Draw() const {
   for (size_t row = 0; row < num_pixels_per_side_; ++row) {
     for (size_t col = 0; col < num_pixels_per_side_; ++col) {
-      // Currently, this will draw a quarter circle centered at the top-left
-      // corner with a radius of 20
-
-      // TODO: Replace the if-statement below with an if-statement that checks
-      // if the pixel at (row, col) is currently shaded
-      if (row * row + col * col <= 20 * 20) {
+      if (image_.image_string_vector()[row][col] == '#' || image_.image_string_vector()[row][col] == '+') {
         ci::gl::color(ci::Color::gray(0.3f));
       } else {
         ci::gl::color(ci::Color("white"));
@@ -50,18 +50,22 @@ void Sketchpad::HandleBrush(const vec2& brush_screen_coords) {
     for (size_t col = 0; col < num_pixels_per_side_; ++col) {
       vec2 pixel_center = {col + 0.5, row + 0.5};
 
-      if (glm::distance(brush_sketchpad_coords, pixel_center) <=
-          brush_radius_) {
-        // TODO: Add code to shade in the pixel at (row, col)
+      if (glm::distance(brush_sketchpad_coords, pixel_center) <= brush_radius_) {
+          image_.image_string_vector()[row][col] = '#';
       }
     }
   }
 }
 
 void Sketchpad::Clear() {
-  // TODO: implement this method
+  for (size_t row = 0; row < num_pixels_per_side_; ++row) {
+    image_.image_string_vector()[row] = std::string(num_pixels_per_side_, ' ');
+  }
 }
 
+naivebayes::Image& Sketchpad::image() {
+  return image_;
+}
 }  // namespace visualizer
 
 }  // namespace naivebayes

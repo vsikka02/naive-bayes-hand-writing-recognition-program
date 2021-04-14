@@ -1,6 +1,9 @@
 #pragma once
 
+#include <core/image.h>
+
 #include "cinder/gl/gl.h"
+#include "core/probability_model.h"
 
 namespace naivebayes {
 
@@ -49,10 +52,17 @@ class Sketchpad {
    */
   void Clear();
 
+  naivebayes::Image& image();
+
+
  private:
   glm::vec2 top_left_corner_;
 
   size_t num_pixels_per_side_;
+
+  naivebayes::Image image_;
+
+  naivebayes::ProbabilityModel probability_model_;
 
   /** Number of screen pixels in the width/height of one sketchpad pixel */
   double pixel_side_length_;
