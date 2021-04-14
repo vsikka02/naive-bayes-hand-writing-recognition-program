@@ -16,6 +16,8 @@ class ProbabilityModel {
   //Empty Constructor.
   ProbabilityModel();
 
+  ProbabilityModel (std::string input_file);
+
   // Constructs a probability model that goes through all the labels and
   // will generate a vector of a map from size_t to a 2D vector of floats
   // that will store the shaded and unshaded probabilities by class_label.
@@ -37,6 +39,10 @@ class ProbabilityModel {
 
   //Getter for the class_probability_model_.
   std::map<size_t, float> class_probability_model();
+
+  int Classifier(naivebayes::Image&);
+
+  float AccuracyOfClassifier(const std::string&);
 
  private:
   std::vector<std::map<size_t , std::vector<std::vector<float>>>>
