@@ -39,8 +39,7 @@ TEST_CASE("Print Override Operator") {
 
 TEST_CASE("Test Loading Different Sized Images") {
   naivebayes::DataProcessingEngine data_engine_1;
-  std::ifstream three_by_three_images ("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testothersizedimages.txt");
+  std::ifstream three_by_three_images ("../../../../../../tests/data/testothersizedimages.txt");
 
   three_by_three_images >> data_engine_1;
 
@@ -51,8 +50,7 @@ TEST_CASE("Test Loading Different Sized Images") {
   }
 
   naivebayes::DataProcessingEngine data_engine_2;
-  std::ifstream five_by_five_images ("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+  std::ifstream five_by_five_images ("../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   five_by_five_images >> data_engine_2;
 

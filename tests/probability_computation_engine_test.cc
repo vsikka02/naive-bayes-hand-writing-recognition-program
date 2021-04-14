@@ -13,8 +13,7 @@ using std::map;
 
 TEST_CASE("Test Calculate Class Probability") {
   std::ifstream input_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+      "../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
   input_file >> test_data_engine;
@@ -49,8 +48,7 @@ TEST_CASE("Test Calculate Class Probability") {
 
 TEST_CASE("Test Calculate Total Number of Images") {
   std::ifstream input_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+      "../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
   input_file >> test_data_engine;
@@ -73,8 +71,7 @@ TEST_CASE("Test Calculate Total Number of Images") {
 
 TEST_CASE("Test Pixel Probability") {
   std::ifstream input_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+      "../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
   input_file >> test_data_engine;

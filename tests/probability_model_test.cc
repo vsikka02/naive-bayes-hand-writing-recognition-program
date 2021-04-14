@@ -10,8 +10,7 @@
 
 TEST_CASE("Test Probability Model Constructor") {
   std::ifstream input_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+      "../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
   input_file >> test_data_engine;
@@ -72,8 +71,7 @@ TEST_CASE("Test Probability Model Constructor") {
 
 TEST_CASE("Read and Write JSON File", "Overridden << Operator") {
   std::ifstream input_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+      "../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
   input_file >> test_data_engine;
@@ -81,15 +79,13 @@ TEST_CASE("Read and Write JSON File", "Overridden << Operator") {
   naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel(test_data_engine.image_map());
 
   SECTION("Write JSON file") {
-    probability_model.WriteJsonOutputFile("/Users/vanshsikka/Documents/"
-        "CS126/Cinder/my_projects/naive-bayes-vsikka2/tests/data/test_output_probability_model.json");
+    probability_model.WriteJsonOutputFile("../../../../../../tests/data/test_output_probability_model.json");
   }
 
   naivebayes::ProbabilityModel new_model = naivebayes::ProbabilityModel();
 
   std::ifstream json_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/naive-bayes-vsikka2/"
-      "tests/data/test_output_probability_model.json");
+      "../../../../../../tests/data/test_output_probability_model.json");
 
   json_file >> new_model;
 
@@ -141,24 +137,40 @@ TEST_CASE("Read and Write JSON File", "Overridden << Operator") {
 }
 
 TEST_CASE("Classifier") {
-  std::ifstream test_file ("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtestimagesandlabels.txt");
+  std::ifstream test_file ("../../../../../../tests/data/testtestimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine data_processing = naivebayes::DataProcessingEngine();
   test_file >> data_processing;
 
-  naivebayes::ProbabilityModel probability_model ("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/test_output_probability_model.json");
+  naivebayes::ProbabilityModel probability_model ("../../../../../../"
+      "tests/data/test_output_probability_model.json");
 
-  REQUIRE(probability_model.Classifier(data_processing.image_map()[0][0]) == 0);
-  REQUIRE(probability_model.Classifier(data_processing.image_map()[1][0]) == 1);
+  SECTION("Test Classification") {
+    int label_1 = probability_model.Classifier(data_processing.image_map()[0][0]).first;
+    int label_2 = probability_model.Classifier(data_processing.image_map()[1][0]).first;
+    REQUIRE(label_1 == 0);
+    REQUIRE(label_2 == 1);
+  }
+
+  SECTION("Test Classifier Math") {
+        float class_probability_0 = log(0.4);
+
+        float image_probability = log(2.0f/3.0f)+log(2.0f/3.0f)+log(2.0f/3.0f)+log(2.0f/3.0f)+
+                                  log(2.0f/3.0f)+log(2.0f/3.0f)+log(1.0f/3.0f)+log(2.0f/3.0f)+
+                                  log(2.0f/3.0f)+log(1.0f/3.0f)+log(2.0f/3.0f)+log(1.0f/3.0f)+
+                                  log(2.0f/3.0f)+log(1.0f/3.0f)+log(1.0f/3.0f)+log(2.0f/3.0f)+
+                                  log(2.0f/3.0f)+log(2.0f/3.0f)+log(2.0f/3.0f)+log(2.0f/3.0f)+
+                                  log(2.0f/3.0f)+log(2.0f/3.0f)+log(2.0f/3.0f)+log(2.0f/3.0f)+
+                                  log(2.0f/3.0f);
+
+        REQUIRE(probability_model.Classifier(data_processing.image_map()[0][0]).second ==
+        Approx(class_probability_0 + image_probability));
+  }
 }
 
 TEST_CASE("Accuracy Test") {
-  naivebayes::ProbabilityModel probability_model ("/Users/vanshsikka/Documents/"
-      "CS126/Cinder/my_projects/naive-bayes-vsikka2/data/output_probability_model.json");
+  naivebayes::ProbabilityModel probability_model ("../../../../../../data/output_probability_model.json");
 
   REQUIRE(
-      probability_model.AccuracyOfClassifier("/Users/vanshsikka/Documents/CS126/Cinder/"
-                                             "my_projects/naive-bayes-vsikka2/data/testimagesandlabels.txt") >= 0.7);
+      probability_model.AccuracyOfClassifier("../../../../../../data/testimagesandlabels.txt") >= 0.7);
 }

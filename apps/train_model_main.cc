@@ -29,7 +29,7 @@ int main() {
     naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel();
     json_file >> probability_model;
 
-    float acc = probability_model.AccuracyOfClassifier("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/naive-bayes-vsikka2/data/testimagesandlabels.txt");
+    float acc = probability_model.AccuracyOfClassifier("../data/testimagesandlabels.txt");
     std::cout<<acc<<std::endl;
   }
 

@@ -16,15 +16,24 @@ namespace visualizer {
  */
 class NaiveBayesApp : public ci::app::App {
  public:
+  // Constructor for the Naive Bayes Application.
   NaiveBayesApp();
 
+  // The Draw Function is constantly updated and draws the actual sketchpad and
+  // shades in the necessary pixels.
   void draw() override;
+
+  // This mouseDown and mouseDrag method are used to edit the image that is
+  // linked to the sketchpad and fills the image up with #'s if you are pushing
+  // down or dragging your mouse.
   void mouseDown(ci::app::MouseEvent event) override;
   void mouseDrag(ci::app::MouseEvent event) override;
+
+  // This method allows the user to hit delete in order to clear the board or hit
+  // enter to create a prediction of what is on the sketchpad.
   void keyDown(ci::app::KeyEvent event) override;
 
-  // TODO: Delete this comment. Feel free to play around with these variables
-  // provided that you can see the entire UI on your screen.
+  // Display Constants for Cinder UI.
   const double kWindowSize = 800;
   const double kMargin = 100;
   const size_t kImageDimension = 28;

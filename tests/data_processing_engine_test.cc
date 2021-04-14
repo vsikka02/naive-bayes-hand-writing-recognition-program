@@ -5,8 +5,7 @@
 
 TEST_CASE("Test Training Data Parsing with Overloaded Operator") {
   std::ifstream input_file(
-      "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
+      "../../../../../../tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
 

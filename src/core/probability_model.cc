@@ -98,13 +98,15 @@ std::vector<std::map<size_t, std::vector<std::vector<float>>>> & ProbabilityMode
   return pixel_probability_model_;
 }
 
-int ProbabilityModel::Classifier(naivebayes::Image& image) {
+std::pair<int, float> ProbabilityModel::Classifier(const naivebayes::Image& image) {
   float max_likelihood_score = -(std::numeric_limits<float>::max());
   int class_label = -1;
   vector<string> image_vector = image.image_string_vector();
+  std::pair<int, float> to_return (0,0);
 
-  for (int i = 0; i < class_probability_model_.size(); i++) {
+  for (size_t i = 0; i < class_probability_model_.size(); i++) {
     float current_likelihood = class_probability_model_[i];
+    std::vector<std::map<size_t, std::vector<std::vector<float>>>> pixel_probability_model = pixel_probability_model_;
     for (int j = 0; j < pixel_probability_model_[0][0][0].size(); j++) {
       for (int k = 0; k < pixel_probability_model_[0][0][0].size(); k++) {
         if(image_vector[j][k] == ' ') {
@@ -114,14 +116,15 @@ int ProbabilityModel::Classifier(naivebayes::Image& image) {
         }
       }
     }
-
     if (max_likelihood_score < current_likelihood) {
       max_likelihood_score = current_likelihood;
       class_label = i;
+      to_return.first = i;
+      to_return.second = max_likelihood_score;
     }
   }
 
-  return class_label;
+  return to_return;
 }
 
 float ProbabilityModel::AccuracyOfClassifier(const std::string& file_name) {
@@ -133,13 +136,14 @@ float ProbabilityModel::AccuracyOfClassifier(const std::string& file_name) {
   for (int i = 0; i < data_engine.image_map().size(); i++) {
     for (int j = 0; j < data_engine.image_map()[i].size(); j++) {
       naivebayes::Image image = data_engine.image_map()[i][j];
-      size_t label = Classifier(image);
+      size_t label = Classifier(image).first;
 
       if (image.image_class_label() == label) {
         accuracy++;
       }
     }
   }
+
   return accuracy/ProbabilityComputationEngine::CalculateTotalNumberOfImages(data_engine.image_map());
 }
 

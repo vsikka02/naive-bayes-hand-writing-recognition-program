@@ -26,10 +26,8 @@ float CalculateClassProbability(
   return (class_probability);
 }
 
-std::pair<float, float> CalculatePixelProbability(
-    size_t class_label,
-    std::map<size_t, std::vector<naivebayes::Image>>& images_map,
-    const std::pair<size_t, size_t>& coordinates) {
+std::pair<float, float> CalculatePixelProbability(size_t class_label,
+    std::map<size_t, std::vector<naivebayes::Image>>& images_map, const std::pair<size_t, size_t>& coordinates) {
   if (images_map.empty()) {
     throw std::invalid_argument("Empty Map Inputted!");
   }
@@ -83,4 +81,6 @@ float CalculateTotalNumberOfImages(
 
   return total_count;
 }
+
+
 }  // namespace ProbabilityComputationEngine

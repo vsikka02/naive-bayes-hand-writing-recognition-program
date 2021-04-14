@@ -5,6 +5,7 @@
 #include <map>
 
 #include "image.h"
+#include "probability_model.h"
 
 namespace ProbabilityComputationEngine {
 

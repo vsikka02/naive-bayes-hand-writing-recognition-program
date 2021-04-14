@@ -45,7 +45,7 @@ class ProbabilityModel {
   // Classify a passed in image and return the number that it is predicted to
   // be as a integer. If there is no image inserted or it is unreadable it will
   // return -1.
-  int Classifier(const naivebayes::Image&);
+  std::pair<int, float> Classifier(const naivebayes::Image&);
 
   // This takes in a string path to a file of images and then uses the classifier
   // to see what percentage of images in the given file are predicted properly
