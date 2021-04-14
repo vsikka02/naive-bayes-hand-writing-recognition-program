@@ -6,7 +6,7 @@
 
 int main() {
   bool train_new_probability_model = false;
-  bool train_test_probability_model = true;
+  bool test_classifier = true;
 
   if (train_new_probability_model) {
     std::ifstream input_file("../data/trainingimagesandlabels.txt");
@@ -20,14 +20,17 @@ int main() {
     naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel();
     json_file >> probability_model;
   }
-  if (train_test_probability_model) {
-    std::ifstream input_file("../data/testtrainingimagesandlabels.txt");
+  if (test_classifier) {
+    std::ifstream input_file("../data/testimagesandlabels.txt");
     naivebayes::DataProcessingEngine data_engine = naivebayes::DataProcessingEngine();
     input_file >> data_engine;
 
-    naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel(data_engine.image_map());
+    std::ifstream json_file("../data/output_probability_model.json");
+    naivebayes::ProbabilityModel probability_model = naivebayes::ProbabilityModel();
+    json_file >> probability_model;
 
-    probability_model.WriteJsonOutputFile("../data/test_output_probability_model.json");
+    float acc = probability_model.AccuracyOfClassifier("/Users/vanshsikka/Documents/CS126/Cinder/my_projects/naive-bayes-vsikka2/data/testimagesandlabels.txt");
+    std::cout<<acc<<std::endl;
   }
 
   return 0;

@@ -41,10 +41,9 @@ std::pair<float, float> CalculatePixelProbability(
     throw std::invalid_argument("Class Label Not Found");
   }
 
-  if (images_map[class_label][0].image_string_vector()[0].size() - 1 <
-          coordinates.first ||
-      images_map[class_label][0].image_string_vector()[0].size() - 1 <
-          coordinates.second) {
+  size_t image_size = images_map[class_label][0].image_string_vector()[0].size() - 1;
+
+  if (image_size < coordinates.first || image_size < coordinates.second) {
     throw std::out_of_range("Coordinates do not exist");
   }
 

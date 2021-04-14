@@ -14,10 +14,9 @@ using std::map;
 TEST_CASE("Test Calculate Class Probability") {
   std::ifstream input_file(
       "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/data/testtrainingimagesandlabels.txt");
+      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
-
   input_file >> test_data_engine;
 
   map<size_t, vector<naivebayes::Image>> image_map = test_data_engine.image_map();
@@ -26,14 +25,14 @@ TEST_CASE("Test Calculate Class Probability") {
     float class_0_probability =
         ProbabilityComputationEngine::CalculateClassProbability(0, image_map);
 
-    REQUIRE(class_0_probability == Approx(-0.9162907));
+    REQUIRE(class_0_probability == Approx(log((1.0f + 1.0f)/ (2.0f + 3.0f))));
   }
 
   SECTION("Test 1 Class Probability") {
     float class_1_probability =
         ProbabilityComputationEngine::CalculateClassProbability(1, image_map);
 
-    REQUIRE(class_1_probability == Approx(-0.5108256));
+    REQUIRE(class_1_probability == Approx(log((1.0f + 2.0f)/ (2.0f + 3.0f))));
   }
 
   SECTION("Test Invalid Class") {
@@ -51,10 +50,9 @@ TEST_CASE("Test Calculate Class Probability") {
 TEST_CASE("Test Calculate Total Number of Images") {
   std::ifstream input_file(
       "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/data/testtrainingimagesandlabels.txt");
+      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
-
   input_file >> test_data_engine;
 
   map<size_t, vector<naivebayes::Image>> image_map = test_data_engine.image_map();
@@ -76,23 +74,20 @@ TEST_CASE("Test Calculate Total Number of Images") {
 TEST_CASE("Test Pixel Probability") {
   std::ifstream input_file(
       "/Users/vanshsikka/Documents/CS126/Cinder/my_projects/"
-      "naive-bayes-vsikka2/data/testtrainingimagesandlabels.txt");
+      "naive-bayes-vsikka2/tests/data/testtrainingimagesandlabels.txt");
 
   naivebayes::DataProcessingEngine test_data_engine = naivebayes::DataProcessingEngine();
-
   input_file >> test_data_engine;
 
   map<size_t, vector<naivebayes::Image>> image_map = test_data_engine.image_map();
 
   SECTION("Invalid Class Label") {
-
     REQUIRE_THROWS_AS(
         ProbabilityComputationEngine::CalculatePixelProbability(3, image_map, pair<size_t, size_t>(0, 0)),
         std::invalid_argument);
   }
 
   SECTION("Invalid Coordinate Point") {
-
     REQUIRE_THROWS_AS(ProbabilityComputationEngine::CalculatePixelProbability(
                           0, image_map, pair<size_t, size_t>(10, 10)),
                       std::out_of_range);
@@ -107,30 +102,30 @@ TEST_CASE("Test Pixel Probability") {
 
   SECTION("Calculate Pixel with class 1 (2 Images)") {
     SECTION("Probability at (0,0)", "Both Unshaded") {
-
       pair<float, float> probability_1_00 =
           ProbabilityComputationEngine::CalculatePixelProbability(
               1, image_map, pair<size_t, size_t>(0, 0));
 
-      REQUIRE(probability_1_00.first == Approx(-1.386294));
-      REQUIRE(probability_1_00.second == Approx(-0.2876821));
+      REQUIRE(probability_1_00.first == Approx(log((1.0f) / (2.0f + 2.0f))));
+      REQUIRE(probability_1_00.second == Approx(log((1.0f + 2.0f) / (2.0f + 2.0f))));
     }
-    SECTION("Probability at (1,1)", "One Image Shaded Other Unshaded") {
 
+    SECTION("Probability at (1,1)", "One Image Shaded Other Unshaded") {
       pair<float, float> probability_1_11 =
           ProbabilityComputationEngine::CalculatePixelProbability(
               1, image_map, pair<size_t, size_t>(1, 1));
 
-      REQUIRE(probability_1_11.first == Approx(-0.693147));
-      REQUIRE(probability_1_11.second == Approx(-0.693147));
+      REQUIRE(probability_1_11.first == Approx(log((1.0f + 1.0f) / (2.0f + 2.0f))));
+      REQUIRE(probability_1_11.second == Approx(log((1.0f + 1.0f) / (2.0f + 2.0f))));
     }
+
     SECTION("Probability at (1,2)", "Both Shaded") {
       pair<float, float> probability_1_12 =
           ProbabilityComputationEngine::CalculatePixelProbability(
               1, image_map, pair<size_t, size_t>(1, 2));
 
-      REQUIRE(probability_1_12.first == Approx(-0.287682));
-      REQUIRE(probability_1_12.second == Approx(-1.386294));
+      REQUIRE(probability_1_12.first == Approx(log((1.0f + 2.0f) / (2.0f + 2.0f))));
+      REQUIRE(probability_1_12.second == Approx(log((1.0f) / (2.0f + 2.0f))));
     }
   }
 
@@ -140,16 +135,17 @@ TEST_CASE("Test Pixel Probability") {
           ProbabilityComputationEngine::CalculatePixelProbability(
               0, image_map, pair<size_t, size_t>(0, 0));
 
-      REQUIRE(probability_0_00.first == Approx(-1.09861));
-      REQUIRE(probability_0_00.second == Approx(-0.405465));
+      REQUIRE(probability_0_00.first == Approx(log((1.0f) / (2.0f + 1.0f))));
+      REQUIRE(probability_0_00.second == Approx(log((1.0f + 1.0f) / (2.0f + 1.0f))));
     }
+
     SECTION("Probability at (2,3)", "Shaded Pixel") {
       pair<float, float> probability_0_23 =
           ProbabilityComputationEngine::CalculatePixelProbability(
               0, image_map, pair<size_t, size_t>(2, 3));
 
-      REQUIRE(probability_0_23.first == Approx(-0.4054651));
-      REQUIRE(probability_0_23.second == Approx(-1.098612289));
+      REQUIRE(probability_0_23.first == Approx(log((1.0f + 1.0f) / (2.0f + 1.0f))));
+      REQUIRE(probability_0_23.second == Approx(log((1.0f) / (2.0f + 1.0f))));
     }
   }
 }

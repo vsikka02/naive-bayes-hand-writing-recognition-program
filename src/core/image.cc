@@ -19,11 +19,16 @@ std::ostream& operator<<(std::ostream& os, const Image& image) {
   return os;
 }
 
-std::vector<string>& Image::image_string_vector() {
+const vector<string>& Image::image_string_vector() const {
+  return image_string_vector_;
+}
+
+vector<string>& Image::image_string_vector() {
   return image_string_vector_;
 }
 
 size_t Image::image_class_label() {
   return image_class_label_;
 }
+Image::Image() {}
 }  // namespace naivebayes
