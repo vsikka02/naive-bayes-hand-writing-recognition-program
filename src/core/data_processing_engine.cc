@@ -11,10 +11,8 @@ using std::string;
 
 std::istream& operator>>(std::istream& is,
                          naivebayes::DataProcessingEngine& data_engine) {
-
   data_engine.GenerateImageMap(is);
   return is;
-
 }
 
 void DataProcessingEngine::GenerateImageMap(std::istream& is) {
@@ -23,9 +21,7 @@ void DataProcessingEngine::GenerateImageMap(std::istream& is) {
   size_t prev_label;
 
   while (getline(is, string_line)) {
-
     if (std::isdigit(string_line[0])) {
-
       if (line_image.empty()) {
         prev_label = ConvertStringToSizeT(string_line);
         continue;
@@ -39,7 +35,6 @@ void DataProcessingEngine::GenerateImageMap(std::istream& is) {
     }
 
     line_image.push_back(string_line);
-
   }
 
   //Ensures that the map is not off by one and gathers the last image.
@@ -50,11 +45,9 @@ void DataProcessingEngine::GenerateImageMap(std::istream& is) {
 }
 
 size_t DataProcessingEngine::ConvertStringToSizeT(const string& string) {
-
   size_t label;
   std::stringstream ss(string);
   ss >> label;
-
   return label;
 }
 

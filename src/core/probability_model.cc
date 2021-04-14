@@ -24,12 +24,10 @@ ProbabilityModel::ProbabilityModel(
 
   for (int i = 0; i < images_map.size(); i++) {
     class_probability_model_[i] = ProbabilityComputationEngine::CalculateClassProbability(i, images_map);
-
     vector<string> image_string_vector = images_map[0][0].image_string_vector();
 
     vector<vector<float>> shaded_vec(
         image_string_vector.size(),vector<float>(image_string_vector.size()));
-
     std::vector<std::vector<float>> unshaded_vec(
         image_string_vector.size(),vector<float>(image_string_vector.size()));
 
@@ -60,13 +58,11 @@ std::map<size_t, float> ProbabilityModel::class_probability_model() {
 }
 
 void ProbabilityModel::WriteJsonOutputFile(std::string file_path) {
-
   json j;
   j["pixel_probability_model"] = pixel_probability_model_;
   j["class_probability_model"] = class_probability_model_;
 
   std::ofstream output_file(file_path);
-
   if (output_file.is_open()) {
     output_file << j << std::endl;
   }
@@ -106,15 +102,14 @@ int ProbabilityModel::Classifier(naivebayes::Image& image) {
   float max_likelihood_score = -(std::numeric_limits<float>::max());
   int class_label = -1;
   vector<string> image_vector = image.image_string_vector();
+
   for (int i = 0; i < class_probability_model_.size(); i++) {
     float current_likelihood = class_probability_model_[i];
     for (int j = 0; j < pixel_probability_model_[0][0][0].size(); j++) {
       for (int k = 0; k < pixel_probability_model_[0][0][0].size(); k++) {
         if(image_vector[j][k] == ' ') {
           current_likelihood += pixel_probability_model_[1][i][j][k];
-        }
-
-        else {
+        } else {
           current_likelihood += pixel_probability_model_[0][i][j][k];
         }
       }
@@ -139,6 +134,7 @@ float ProbabilityModel::AccuracyOfClassifier(const std::string& file_name) {
     for (int j = 0; j < data_engine.image_map()[i].size(); j++) {
       naivebayes::Image image = data_engine.image_map()[i][j];
       size_t label = Classifier(image);
+
       if (image.image_class_label() == label) {
         accuracy++;
       }

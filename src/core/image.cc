@@ -11,7 +11,6 @@ Image::Image(const vector<string>& image_vector, size_t class_label) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Image& image) {
-
   for (std::string value : image.image_string_vector_) {
     os << value << "\n";
   }

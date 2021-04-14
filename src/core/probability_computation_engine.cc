@@ -10,7 +10,6 @@ namespace ProbabilityComputationEngine {
 float CalculateClassProbability(
     size_t class_label,
     std::map<size_t, std::vector<naivebayes::Image>>& images_map) {
-
   if (images_map.empty()) {
     throw std::invalid_argument("Empty Map Inputted!");
   }
@@ -20,19 +19,17 @@ float CalculateClassProbability(
   }
 
   float images_in_class = images_map[class_label].size();
-  float to_return =
+  float class_probability =
       log((kK + images_in_class) / (images_map.size() * kK +
                                     CalculateTotalNumberOfImages(images_map)));
 
-  return (to_return);
-
+  return (class_probability);
 }
 
 std::pair<float, float> CalculatePixelProbability(
     size_t class_label,
     std::map<size_t, std::vector<naivebayes::Image>>& images_map,
     const std::pair<size_t, size_t>& coordinates) {
-
   if (images_map.empty()) {
     throw std::invalid_argument("Empty Map Inputted!");
   }
@@ -49,26 +46,19 @@ std::pair<float, float> CalculatePixelProbability(
 
   float count_shaded = 0;
   float count_unshaded = 0;
-
   std::vector<naivebayes::Image> images = images_map[class_label];
 
   for (size_t i = 0; i < images_map[class_label].size(); i++) {
-
     std::vector<string> training_image = images[i].image_string_vector();
-
     if (std::find(kShadedCharacterSet.begin(),
                   kShadedCharacterSet.end(),
                   training_image[coordinates.first][coordinates.second])
         != kShadedCharacterSet.end()) {
-
       count_shaded++;
-      continue;
-
     } else if (std::find(kUnshadedCharacterSet.begin(),
                          kUnshadedCharacterSet.end(),
                          training_image[coordinates.first][coordinates.second])
                != kUnshadedCharacterSet.end()) {
-
       count_unshaded++;
     }
   }
@@ -77,7 +67,6 @@ std::pair<float, float> CalculatePixelProbability(
 
   float shaded_pixel_probability =
       log((kK + count_shaded) / (kShadedOrUnshadedV * kK + images_in_class));
-
   float unshaded_pixel_probability =
       log((kK + count_unshaded) / (kShadedOrUnshadedV * kK + images_in_class));
 
@@ -87,9 +76,7 @@ std::pair<float, float> CalculatePixelProbability(
 
 float CalculateTotalNumberOfImages(
     std::map<size_t, std::vector<naivebayes::Image>>& images_map) {
-
   float total_count = 0;
-
   for (size_t i = 0; i < images_map.size(); i++) {
     total_count += images_map[i].size();
   }
